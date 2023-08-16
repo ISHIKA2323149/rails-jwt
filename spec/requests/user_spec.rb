@@ -48,5 +48,21 @@ RSpec.describe AuthenticationController, type: :controller do
       end
     end
   end
+
+  describe "PATCH#update" do
+    context "with valid attributes" do
+      let(:user) { FactoryBot.create(:user) }
+      it "updates the user's name with authentication" do
+      token = JsonWebToken.encode(user: user)
+      request.headers['Authorization'] = "Bearer #{token}"
+      expect {
+      patch :update, params: valid_attributes
+      }
+      expect(response).to have_http_status(:ok)
+      user.reload
+      expect(user.name)
+      end
+    end
+  end
 end
 
